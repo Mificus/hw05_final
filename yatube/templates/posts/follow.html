@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load cache %}
+{% block title %}Посты авторов{% endblock %}
+{% block content %}
+<h1> Посты авторов, на которых подписан</h1>
+{% include 'posts/includes/switcher.html' %}
+{% cache 20 sidebar index page%}
+  {% for post in page_obj %}
+    {% include 'posts/post.html' %}
+    {% if not forloop.last %}<hr>{% endif %}
+  {% endfor %}
+{% endcache %}
+  {% include 'posts/includes/paginator.html' %}
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Об авторе проекта{% endblock %}
+{% block content %}
+<h1>Привет, я автор</h1>
+<div class="row">
+  <aside class="col-12 col-md-3">
+    <img src="{% static 'img/ligtech.jpg' %}" width="300" height="200" class="d-inline-block align-top" alt="">
+  </aside>
+  <article class="col-12 col-md-9">
+    <p>Меня зовут Максим. Я работаю в продажах в сегменте b2b. Продаю столешницы кухонным студиям.<br>
+      Один из вариантов столешницы представлен на картинке<br>
+      Мои увлечения - футбол.<br>
+      Решил заняться программированием, сменив род деятельности. Для меня это всё в новинку.<br>
+      <a href="https://github.com/Mificus">Мой github</a> <br>
+      Процесс изучения с нуля очень сложный, но увлекательный.
+    </p>
+  </article>
+</div>
+{% endblock %} 

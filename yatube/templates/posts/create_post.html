@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}
+{% if is_edit %}
+  Сохранить запись
+{% else %}
+  Добавить запись
+{% endif %}
+{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 p-5">
+      <div class="card">
+        <div class="card-header">
+          {% if is_edit %}
+            Сохранить запись
+          {% else %}
+            Добавить запись
+          {% endif %}
+        </div>
+        <div class="card-body">
+        <!---оставил action пустым и убрал проверку --->
+        <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {%for field in form %}
+          <div class="form-group row my-3 p-3">
+            {{ field.label|safe }}
+            {{ field }}
+            <small class="form-text text-muted">
+              {{ field.help_text|safe }}
+            </small>
+          </div>
+        {% endfor %}
+          <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary">
+              Сохранить
+            </button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
