@@ -2,6 +2,7 @@ from http import HTTPStatus
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase, Client
+from django.core.cache import cache
 
 from ..models import Post, Group
 
@@ -24,13 +25,13 @@ class PostURLTests(TestCase):
         )
         cls.public_urls = {
             '/': 'posts/index.html',
-            '/posts/1/': 'posts/post_detail.html',
-            '/group/test-slug/': 'posts/group_list.html',
+            f'/posts/{cls.post.id}/': 'posts/post_detail.html',
+            f'/group/{cls.group.slug}/': 'posts/group_list.html',
             '/profile/auth/': 'posts/profile.html',
         }
         cls.private_urls = {
             '/create/': 'posts/create_post.html',
-            '/posts/1/edit/': 'posts/create_post.html',
+            f'/posts/{cls.post.id}/edit/': 'posts/create_post.html',
             '/follow/': 'posts/follow.html'
         }
 
@@ -41,6 +42,7 @@ class PostURLTests(TestCase):
         self.authorized_client = Client()
         # Авторизуем пользователя
         self.authorized_client.force_login(self.user)
+        cache.clear()
 
     def test_urls_authorized_client(self):
         """Проверяем правильность отдаваемого шаблона,
