@@ -53,17 +53,6 @@ class Post(models.Model):
         return self.text[:15]
 
 
-class Contact(models.Model):
-    name = models.CharField(max_length=100)
-    email = models.EmailField()
-    subject = models.CharField(max_length=100)
-    body = models.TextField()
-    is_answered = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.name
-
-
 class Comment(models.Model):
     post = models.ForeignKey(
         Post,
@@ -80,7 +69,6 @@ class Comment(models.Model):
         help_text='Введите текст поста',
     )
     created = models.DateTimeField(
-        auto_now=True,
         auto_now_add=True,
     )
 

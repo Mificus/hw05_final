@@ -4,12 +4,10 @@
 {% block content %}
 <h1> Последние обновления</h1>
 {% include 'posts/includes/switcher.html' %}
-{% cache 20 sidebar index page%}
   {% for post in page_obj %}
-    {% include 'posts/post.html' %}
+    {% include 'posts/includes/post.html' %}
     {% if not forloop.last %}<hr>{% endif %}
   {% endfor %}
-{% endcache %}
-  {% include 'posts/includes/paginator.html' %}
+{% include 'posts/includes/paginator.html' %}
 
 {% endblock %}

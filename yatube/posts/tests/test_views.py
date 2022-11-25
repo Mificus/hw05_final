@@ -60,6 +60,7 @@ class PostViewTests(TestCase):
             reverse('posts:post_create'): 'posts/create_post.html',
             reverse('posts:post_edit', kwargs={'post_id':
                     cls.post.id}): 'posts/create_post.html',
+            reverse('posts:follow_index'): 'posts/follow.html',
         }
 
     @classmethod
@@ -143,8 +144,14 @@ class PostViewTests(TestCase):
         self.assertEqual(response.context.get('post').author, self.post.author)
         self.assertEqual(response.context.get('post').group, self.post.group)
         self.assertEqual(response.context.get('post').image, self.post.image)
+        response = self.authorized_client.get(
+            reverse('posts:post_detail', kwargs={'post_id': self.post.id})
+        )
+        self.assertEqual(response.context.get('post').text, self.post.text)
+        self.assertEqual(response.context.get('post').author, self.post.author)
+        self.assertEqual(response.context.get('post').group, self.post.group)
+        self.assertEqual(response.context.get('post').image, self.post.image)
 
-    # сюда добавить доступность через субтест
     def tests_posts_post_exist_authorized_client_private_url(self):
         """Проверяем доступность authorized_client
         для private_urls"""
@@ -290,3 +297,49 @@ class FollowTest(TestCase):
                                    text="Подпишись на меня")
         response = self.authorized_client.get(reverse('posts:follow_index'))
         self.assertNotIn(post, response.context['page_obj'].object_list)
+
+    def test_follow_myself(self):
+        """Проверка невозможности подписаться на себя"""
+        self.follower_client.post(
+            reverse('posts:profile_follow',
+                    kwargs={'username': self.post_author.username}))
+        follow = Follow.objects.filter(
+            author=self.post_author, user=self.post_author
+        )
+        self.assertFalse(follow.exists())
+
+
+class TestCache(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.user = User.objects.create_user(username='auth')
+        cls.group = Group.objects.create(
+            title='title',
+            slug='slug',
+            description='description'
+        )
+        cls.post = Post.objects.create(
+            text='Текст поста',
+            group=cls.group,
+            author=cls.user,
+        )
+
+    def setUp(self):
+        self.authorized_client = Client()
+        self.authorized_client.force_login(self.user)
+        cache.clear()
+
+    def test_cache_index(self):
+        """Проверка хранения и очищения кэша для index."""
+        response = self.authorized_client.get(reverse('posts:index'))
+        posts = response.content
+        Post.objects.create(text='Текст поста',
+                            author=self.user,)
+        response_old = self.authorized_client.get(reverse('posts:index'))
+        old_posts = response_old.content
+        self.assertEqual(old_posts, posts)
+        cache.clear()
+        response_new = self.authorized_client.get(reverse('posts:index'))
+        new_posts = response_new.content
+        self.assertNotEqual(old_posts, new_posts)

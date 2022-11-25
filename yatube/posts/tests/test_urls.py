@@ -25,22 +25,16 @@ class PostURLTests(TestCase):
             description='Тестовое описание',
         )
         cls.public_urls = {
-            reverse('posts:index'): 'posts/index.html',
-            reverse('posts:post_detail', kwargs={'post_id':
-                    cls.post.id}): 'posts/post_detail.html',
-            reverse('posts:group_list', kwargs={'slug':
-                    cls.group.slug}): 'posts/group_list.html',
-            reverse('posts:profile', kwargs={'username':
-                    cls.post.author}): 'posts/profile.html',
+            '/': 'posts/index.html',
+            '/posts/1/': 'posts/post_detail.html',
+            '/group/test-slug/': 'posts/group_list.html',
+            '/profile/auth/': 'posts/profile.html',
         }
         cls.private_urls = {
-            reverse('posts:post_create'): 'posts/create_post.html',
-            reverse('posts:post_edit', kwargs={'post_id':
-                    cls.post.id}): 'posts/create_post.html',
+            '/create/': 'posts/create_post.html',
+            '/posts/1/edit/': 'posts/create_post.html',
+            '/follow/': 'posts/follow.html'
         }
-        # cls.added_urls = {
-        #     reverse('posts:add_comment'): 'posts'
-        # }
 
     def setUp(self):
         # Создаем неавторизованный клиент
@@ -53,7 +47,6 @@ class PostURLTests(TestCase):
     def test_urls_authorized_client(self):
         """Проверяем правильность отдаваемого шаблона,
          в том числе и для authorized_client"""
-        cache.clear()
         self.private_urls.update(self.public_urls)
         for reverse_name, template in self.public_urls.items():
             with self.subTest(reverse_name=reverse_name):

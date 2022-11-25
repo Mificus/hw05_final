@@ -88,7 +88,7 @@ def post_create(request):
         tmp_form = form.save(commit=False)
         tmp_form.author = request.user
         tmp_form.save()
-        return redirect('posts:profile', tmp_form.author)
+        return redirect('posts:profile', tmp_form.author.username)
     template = 'posts/create_post.html'
     return render(request, template, {'form': form})
 
@@ -128,7 +128,9 @@ def add_comment(request, post_id):
         comment.author = request.user
         comment.post = post
         comment.save()
-    return redirect('posts:post_detail', post_id=post_id)
+        return redirect('posts:post_detail', post_id=post_id)
+    template = 'posts/post_detail.html'
+    return render(request, template, {'form': form})
 
 
 @login_required
@@ -155,7 +157,5 @@ def profile_follow(request, username):
 @login_required
 def profile_unfollow(request, username):
     author = get_object_or_404(User, username=username)
-    data_follow = request.user.follower.filter(author=author)
-    if data_follow.exists():
-        data_follow.delete()
+    request.user.follower.filter(author=author).delete()
     return redirect('posts:profile', username)

@@ -21,7 +21,7 @@
    {% endif %}
 </div>
         {% for post in page_obj %}
-            {% include 'posts/post.html' with post_without_profile_link=True %}
+            {% include 'posts/includes/post.html' with post_without_profile_link=True %}
             {% if not forloop.last %}<hr>{% endif %}
         {% endfor %}
 {% include 'posts/includes/paginator.html' %}
