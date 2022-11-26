@@ -144,7 +144,8 @@ class PostViewTests(TestCase):
         self.assertEqual(response.context.get('post').author, self.post.author)
         self.assertEqual(response.context.get('post').group, self.post.group)
         self.assertEqual(response.context.get('post').image, self.post.image)
-        self.assertEqual(response.context.get('post').comments, self.post.comments)
+        self.assertEqual(response.context.get('post').comments,
+                         self.post.comments)
 
     def tests_posts_post_exist_authorized_client_private_url(self):
         """Проверяем доступность authorized_client
