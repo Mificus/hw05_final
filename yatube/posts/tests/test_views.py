@@ -137,13 +137,6 @@ class PostViewTests(TestCase):
     def test_posts_post_detail_pages_show_correct_context(self):
         """Проверяем, что словарь context страницы post_detail
         содержит ожидаемый контекст"""
-        response = self.guest_client.get(
-            reverse('posts:post_detail', kwargs={'post_id': self.post.id})
-        )
-        self.assertEqual(response.context.get('post').text, self.post.text)
-        self.assertEqual(response.context.get('post').author, self.post.author)
-        self.assertEqual(response.context.get('post').group, self.post.group)
-        self.assertEqual(response.context.get('post').image, self.post.image)
         response = self.authorized_client.get(
             reverse('posts:post_detail', kwargs={'post_id': self.post.id})
         )
@@ -151,6 +144,7 @@ class PostViewTests(TestCase):
         self.assertEqual(response.context.get('post').author, self.post.author)
         self.assertEqual(response.context.get('post').group, self.post.group)
         self.assertEqual(response.context.get('post').image, self.post.image)
+        self.assertEqual(response.context.get('post').comments, self.post.comments)
 
     def tests_posts_post_exist_authorized_client_private_url(self):
         """Проверяем доступность authorized_client

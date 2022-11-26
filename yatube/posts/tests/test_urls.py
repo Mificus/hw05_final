@@ -27,7 +27,7 @@ class PostURLTests(TestCase):
             '/': 'posts/index.html',
             f'/posts/{cls.post.id}/': 'posts/post_detail.html',
             f'/group/{cls.group.slug}/': 'posts/group_list.html',
-            '/profile/auth/': 'posts/profile.html',
+            f'/profile/{cls.user.username}/': 'posts/profile.html',
         }
         cls.private_urls = {
             '/create/': 'posts/create_post.html',
