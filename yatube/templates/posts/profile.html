@@ -6,7 +6,7 @@
   <h3>Всего постов: {{ count }}</h3>
   {% if following %}
     <a
-      class="btn btn-lg btn-light"
+      class="btn btn-lg btn-outline-dark"
       href="{% url 'posts:profile_unfollow' author.username %}" role="button"
     >
       Отписаться

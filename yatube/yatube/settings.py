@@ -26,6 +26,10 @@ SECRET_KEY = 'tv-m%dfp%xzj=zicf4y338xa1f=((8l_x%5g-v@w9n8!%qli#n'
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    # 'www.maxswallow.pythonanywhere.com',
+    # 'maxswallow.pythonanywhere.com',
+    #
+
     'localhost',
     '127.0.0.1',
     '[::1]',
@@ -44,6 +48,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'core.apps.CoreConfig',
     'sorl.thumbnail',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -54,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'yatube.urls'
@@ -147,3 +153,7 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
     }
 }
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]

@@ -18,6 +18,7 @@ def index(request):
     page_obj = paginator.get_page(page_number)
     context = {
         'page_obj': page_obj,
+        'index': True,
     }
     template = 'posts/index.html'
     return render(request, template, context)
@@ -142,6 +143,7 @@ def follow_index(request):
     page_obj = paginator.get_page(page_number)
     context = {
         'page_obj': page_obj,
+        'follow': True,
     }
     template = 'posts/follow.html'
     return render(request, template, context)
