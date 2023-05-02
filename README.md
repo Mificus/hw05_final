@@ -1,3 +1,39 @@
-# hw05_final
+# Проект Yatube
 
-[![CI](https://github.com/yandex-praktikum/hw05_final/actions/workflows/python-app.yml/badge.svg?branch=master)](https://github.com/yandex-praktikum/hw05_final/actions/workflows/python-app.yml)
+**Yatube** - это платформа для публикаций, блог, позволяет авторам создавать записи на различные темы, 
+дает возможность комментировать их и подписываться/отписываться от авторов. 
+Включает в себя администрирование, управление пользователями, работу с записями
+(создание, редактирование, удаление), объединение записей по сообществам, пагинацию, 
+модель отправки электронных сообщений пользователям, основные шаблоны для страниц сайта. 
+Для хранение данных используется SQLite.
+
+
+
+## Стек технологий:
+* Python 3.7
+* Django 2.2.16
+
+
+## Установка
+Как развернуть наш проект у себя.
+
+### Склонируйте репозиторий
+$ git clone https://github.com/Mificus/hw05_final.git \
+$ cd hw05_final
+
+### Создайте и активируйте рекламное окружение
+$ python3 -m venv venv $ venv/bin/activate
+
+### Установите зависимости
+$ pip install -r requirements.txt
+
+### Выполните миграции
+$ cd yatube \
+$ python3 manage.py makemigrations \
+$ python3 manage.py migrate \
+
+### Запуск сервера
+$ python3 manage.py runserver
+
+### Автор
+Ласточкин Максим
